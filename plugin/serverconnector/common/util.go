@@ -188,3 +188,13 @@ func AppendHeaderWithReqId(header map[string]string, reqID string) map[string]st
 	m[headerRequestID] = reqID
 	return m
 }
+
+func AppendHeaderWithReqIDAndForce(header map[string]string, reqID string, force bool) map[string]string {
+	m := make(map[string]string, len(header)+2)
+	for k, v := range header {
+		m[k] = v
+	}
+	m[headerRequestID] = reqID
+	m[headerForce] = fmt.Sprintf("%t", force)
+	return m
+}

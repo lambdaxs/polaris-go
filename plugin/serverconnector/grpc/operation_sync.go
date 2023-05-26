@@ -56,7 +56,7 @@ func (g *Connector) RegisterInstance(req *model.InstanceRegisterRequest, header 
 	var (
 		namingClient = apiservice.NewPolarisGRPCClient(network.ToGRPCConn(conn.Conn))
 		reqID        = connector.NextRegisterInstanceReqID()
-		ctx, cancel  = connector.CreateHeaderContext(*req.Timeout, connector.AppendHeaderWithReqId(header, reqID))
+		ctx, cancel  = connector.CreateHeaderContext(*req.Timeout, connector.AppendHeaderWithReqIDAndForce(header, reqID, req.Force))
 	)
 
 	if cancel != nil {
