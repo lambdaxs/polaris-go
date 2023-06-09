@@ -126,7 +126,7 @@ func (c *RegisterStateManager) runHeartbeat(ctx context.Context, state *register
 				Host:         instance.Host,
 				Port:         instance.Port,
 				ServiceToken: instance.ServiceToken,
-				InstanceID:   instance.InstanceId,
+				InstanceID:   instance.InstanceID,
 			}
 			start := time.Now()
 			if err := beat(hbReq); err != nil {
