@@ -109,7 +109,10 @@ func (w *WatchEngine) ServiceEventCallback(event *common.PluginEvent) error {
 		func() {
 			w.rwMutex.RLock()
 			defer w.rwMutex.RUnlock()
-			nsName := svcInstances.GetNamespace()
+			nsName := ""
+			if len(services.GetValue()) > 0 {
+				nsName = services.GetValue()[0].Namespace
+			}
 			if watchers, ok := w.servicesWatch[nsName]; ok {
 				for _, lpCtx := range watchers {
 					if lpCtx.ServiceEventKey().Type == model.EventServices {
