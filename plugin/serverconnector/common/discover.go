@@ -44,6 +44,7 @@ import (
 const (
 	// 需要发往服务端的请求跟踪标识
 	headerRequestID = "request-id"
+	headerForce     = "x-force"
 	// 失败时的最大超时时间
 	maxConnTimeout = 100 * time.Millisecond
 	// 任务重试间隔

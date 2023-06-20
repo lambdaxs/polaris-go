@@ -28,7 +28,7 @@ import (
 // RegisterRequestToProto 将用户的API注册请求结构转换成为server端需要的proto结构
 func RegisterRequestToProto(request *model.InstanceRegisterRequest) (pbInstance *apiservice.Instance) {
 	pbInstance = assembleNamingPbInstance(request.Namespace, request.Service, request.Host,
-		request.Port, request.ServiceToken, request.InstanceId)
+		request.Port, request.ServiceToken, request.InstanceID)
 	if nil != request.Protocol {
 		pbInstance.Protocol = &wrappers.StringValue{Value: *request.Protocol}
 	}
@@ -56,6 +56,10 @@ func RegisterRequestToProto(request *model.InstanceRegisterRequest) (pbInstance 
 			Zone:   &wrappers.StringValue{Value: request.Location.Zone},
 			Campus: &wrappers.StringValue{Value: request.Location.Campus},
 		}
+	}
+	// 支持设置健康检查是否开启
+	if nil != request.EnableHealthCheck {
+		pbInstance.EnableHealthCheck = &wrappers.BoolValue{Value: *request.EnableHealthCheck}
 	}
 	// 开启了远程健康检查
 	if nil != request.TTL {

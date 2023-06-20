@@ -1214,6 +1214,8 @@ const (
 
 // InstanceRegisterRequest 注册服务请求
 type InstanceRegisterRequest struct {
+	// 可选，指定实例id
+	InstanceID string
 	// 必选，服务名
 	Service string
 	// 必选，服务访问Token
@@ -1238,8 +1240,12 @@ type InstanceRegisterRequest struct {
 	Metadata map[string]string
 	// 该服务实例是否健康，默认健康
 	Healthy *bool
+	//
+	EnableHealthCheck *bool
 	// 该服务实例是否隔离，默认不隔离
 	Isolate *bool
+	//
+	Force bool
 	// ttl超时时间，如果节点要调用heartbeat上报，则必须填写，否则会400141错误码，单位：秒
 	TTL *int
 
@@ -1250,8 +1256,6 @@ type InstanceRegisterRequest struct {
 	Timeout *time.Duration
 	// 可选，重试次数，默认直接获取全局的超时配置
 	RetryCount *int
-	// 可选，指定实例id
-	InstanceId string
 }
 
 // String 打印消息内容
@@ -1329,6 +1333,9 @@ func (g *InstanceRegisterRequest) Validate() error {
 		return NewSDKError(ErrCodeAPIInvalidArgument, nil, "InstanceRegisterRequest can not be nil")
 	}
 	var errs error
+	if len(g.InstanceID) > 0 {
+		return errs
+	}
 	if len(g.Service) == 0 {
 		errs = multierror.Append(errs, fmt.Errorf("InstanceRegisterRequest: serviceName should not be empty"))
 	}
